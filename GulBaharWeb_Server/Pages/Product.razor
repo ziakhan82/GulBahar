@@ -1,0 +1,76 @@
+﻿@*@page "/NewPages/Product"
+<h2 class="text-primary">Product</h2>
+<p>Favioute toatl : @SelectedFavouriteCount</p>
+<p>Last Selected Product : @LastProductName</p>
+<div class="border p-2" style="background-color:azure">
+	<div class="row">
+		@foreach(var prod in productList)
+		{
+			<_IndividualProduct product="prod" OnFavouriteUpadated="favouriteCountUpdate"
+			onLastSelectedChange ="SelectedproductUpdate">
+		   <FirstFragmnet>#1</FirstFragmnet>
+		   <SecondFragmnet>#2</SecondFragmnet>
+		</_IndividualProduct>
+		}
+	</div>
+</div>
+
+@code {
+	List<Products> productList = new();
+	private int SelectedFavouriteCount { get; set; } = 0;
+	private string LastProductName { get; set; }
+	protected override void OnInitialized()
+
+	{
+		productList.Add(new()
+			{
+				Id = 1,
+				Name = "Midnight Blaze",
+				Price = 10.99,
+				IsActive = false,
+				ProductProperties = new()
+			{
+				new ProductProp { Id = 1, Key = "flavor", Value = "Rose"},
+				new ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+				new ProductProp { Id = 3, Key = "Color", Value = "Purple"},
+			}
+			});
+
+		productList.Add(new()
+			{
+				Id = 2,
+				Name = "Blossem Blaze",
+				Price = 10.99,
+				IsActive = true,
+				ProductProperties = new()
+			{
+				new ProductProp { Id = 1, Key = "flavor", Value = "Rose"},
+				new ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+				new ProductProp { Id = 3, Key = "Color", Value = "White"},
+			}
+			});
+
+	}
+
+	protected void favouriteCountUpdate(bool isSelected)
+	{
+		if (isSelected)
+		{
+			SelectedFavouriteCount++;
+		}
+		else
+		{
+			SelectedFavouriteCount--;
+		}
+	}
+
+	protected void SelectedproductUpdate(string productName)
+	{
+		LastProductName = productName;
+	}
+}
+
+    
+
+
+*@

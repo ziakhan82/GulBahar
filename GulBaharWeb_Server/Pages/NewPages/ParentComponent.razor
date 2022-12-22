@@ -1,0 +1,35 @@
+﻿@page "/NewPages/ParentComponent"
+<h3>Parent Child Relation</h3>
+
+<CascadingValue Value="@MessageForGrandChild" Name="message">
+	<CascadingValue Value="@LuckyNumber" Name="LuckyNumber">
+<_ChildComponent @ref="childComp" onButtonClick="ShowMessage" Title="This title is passed as a paramter fromt the parent component">
+	
+	<childContent>Render Fragment from Parent! WooHoo!</childContent>
+	@*<DangerchildContent>Danger content from Render Fragment! WooHoo!</DangerchildContent>*@
+</_ChildComponent>
+</CascadingValue>
+</CascadingValue>
+
+<p><b>@messageText</b</p>
+	<_AnotherChildComponent Placeholder="place holder from parent"></_AnotherChildComponent>
+
+	<div class="row">
+		<button class="btn btn-success" @onclick="()=>childComp.TaosterSuccess()">Show SweetAlert</button>
+	</div>
+
+@*<_ChildComponent Title="this is the second child component">
+</_ChildComponent>*@
+
+@code {
+
+	private _ChildComponent childComp;
+	public string MessageForGrandChild = "This message is from your Grand Parent (ParentComponent)";
+	public string LuckyNumber = "7";
+	public string messageText = "";
+
+	private void ShowMessage()
+	{
+		messageText = "Gulabahr button click from child component"; 
+	}
+}

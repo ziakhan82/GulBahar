@@ -5,7 +5,17 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBaharWeb_Server", "GulBaharWeb_Server\GulBaharWeb_Server.csproj", "{46664375-6B11-456D-99A7-7039603BC1A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GulBaharWeb_Client", "GulBaharWeb_Client\GulBaharWeb_Client.csproj", "{DD3E48C1-0A07-44CD-9D4A-EC219CFF60FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBaharWeb_Client", "GulBaharWeb_Client\GulBaharWeb_Client.csproj", "{DD3E48C1-0A07-44CD-9D4A-EC219CFF60FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBahar_Models_Lib", "GulBaharLib\GulBahar_Models_Lib.csproj", "{1B164640-6F54-4773-9EDB-50AEDC8F5093}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBahar_Business_Lib", "GulBahar_Business_Lib\GulBahar_Business_Lib.csproj", "{252B91B3-236B-46A6-924E-DC00F38C469E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBahar_Common_Func_Lib", "GulBahar_Common_Func\GulBahar_Common_Func_Lib.csproj", "{481A98ED-CD3B-4072-A279-A1CF1DEE6BC8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBahar_DataAcess_Lib", "GulBahar_DataAcess_Lib\GulBahar_DataAcess_Lib.csproj", "{8503A54C-BF63-4A28-8D01-6BE90677C40C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GulBaharWeb_API", "GulBaharWeb_API\GulBaharWeb_API.csproj", "{92E952A6-5443-48E3-87CA-BFD5E5F778AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +31,26 @@ Global
 		{DD3E48C1-0A07-44CD-9D4A-EC219CFF60FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD3E48C1-0A07-44CD-9D4A-EC219CFF60FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD3E48C1-0A07-44CD-9D4A-EC219CFF60FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B164640-6F54-4773-9EDB-50AEDC8F5093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B164640-6F54-4773-9EDB-50AEDC8F5093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B164640-6F54-4773-9EDB-50AEDC8F5093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B164640-6F54-4773-9EDB-50AEDC8F5093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{252B91B3-236B-46A6-924E-DC00F38C469E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{252B91B3-236B-46A6-924E-DC00F38C469E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{252B91B3-236B-46A6-924E-DC00F38C469E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{252B91B3-236B-46A6-924E-DC00F38C469E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481A98ED-CD3B-4072-A279-A1CF1DEE6BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481A98ED-CD3B-4072-A279-A1CF1DEE6BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481A98ED-CD3B-4072-A279-A1CF1DEE6BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481A98ED-CD3B-4072-A279-A1CF1DEE6BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8503A54C-BF63-4A28-8D01-6BE90677C40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8503A54C-BF63-4A28-8D01-6BE90677C40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8503A54C-BF63-4A28-8D01-6BE90677C40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8503A54C-BF63-4A28-8D01-6BE90677C40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92E952A6-5443-48E3-87CA-BFD5E5F778AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E952A6-5443-48E3-87CA-BFD5E5F778AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E952A6-5443-48E3-87CA-BFD5E5F778AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E952A6-5443-48E3-87CA-BFD5E5F778AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

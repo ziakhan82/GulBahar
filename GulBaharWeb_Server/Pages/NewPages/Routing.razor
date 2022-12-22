@@ -1,0 +1,46 @@
+﻿@page "/NewPages/Routing/{paramter1}"
+@page "/NewPages/Routing/{paramter1:int}/{paramter2}"
+@page "/NewPages/Routing"
+@page "/Routing"
+
+@inject NavigationManager _NavigationManager
+
+<h3>Routing</h3>
+
+<h4>Parametr 1: @Paramter1</h4>
+<h4>Parametr 1: @Paramter2</h4>
+@*
+<a href="Routing?Param1=Gulbahar&param2=Blazor" class="btn btn-primary">Navigate to Query paramter</a>*@
+<button @onclick="NavigateToQueryParam"  class="btn btn-primary">Navigate to Query paramter</button>
+<button class="btn btn-success" @onclick="LoadParameters">Load paramters</button>
+<br />
+<h3>Query string Paramters</h3>
+<h4>Param 1: @Param1</h4>
+<h4>Param 2: @Param2</h4>
+
+@code {
+
+	[Parameter]
+	public int Paramter1 { get; set; }
+	[Parameter]
+	public string Paramter2 { get; set; }
+
+
+	public string Param1 { get; set; }
+	public string Param2 { get; set; }
+
+	private void LoadParameters()
+	{
+		var abosulteUri = new Uri(_NavigationManager.Uri);
+		var queryParam = System.Web.HttpUtility.ParseQueryString(abosulteUri.Query);
+		Param1 = queryParam["Param1"];
+		Param2 = queryParam["Param2"];
+
+	}
+
+	private void NavigateToQueryParam()
+	{
+		_NavigationManager.NavigateTo("Routing?Param1=Gulbahar&param2=Blazor");
+	}
+
+}

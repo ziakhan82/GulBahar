@@ -7,32 +7,58 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class=" navbar-expand-lg navbar navbar-dark bg-dark" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="/NewPages/bindProp">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Bind Prop
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/NewPages/Product">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Demo Product
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/NewPages/ParentComponent">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Parent/Child Relation
+            </NavLink>
+               <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/NewPages/Routing">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Routing
+            </NavLink>
+        </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/NewPages/BlazorJSComponent">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Blazor Js
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/NewPages/LifeCyleComponent">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> LifeCyle
+                </NavLink>
+            </div>
+           <AuthorizeView Roles="@roleAdmin">                                     
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/Category">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Category
+                </NavLink>
+                </div>
+            </AuthorizeView>
+            <AuthorizeView Roles="@roleAdmin">
+                 <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/Product">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Product
+                </NavLink>
+            </div>
+            </AuthorizeView>
+        </div>
     </nav>
+   
 </div>
 
 @code {
+    private string roleAdmin = GulBahar_Common_Func_Lib.SD.Role_Admin;
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
