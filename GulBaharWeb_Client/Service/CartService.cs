@@ -18,7 +18,7 @@ namespace GulBaharWeb_Client.Service
             var cart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
             bool itemInCart = false; // if the item that user wants to add already exists in the cart, and by delful =f
 
-            if (cart == null)
+              if (cart==null)
             {
                 // if the cart is empty a new list of shopping cart will be assigned which will be empty
                 cart = new List<ShoppingCart>();
@@ -28,10 +28,10 @@ namespace GulBaharWeb_Client.Service
             foreach (var item in cart)
             {
                 // if both are equal means that rcord already exists in the shopping cart
-                if (item.ProductId == cartToAdd.ProductId && item.ProductPriceId == cartToAdd.ProductPriceId)
+                if (item.ProductId==cartToAdd.ProductId && item.ProductPriceId== cartToAdd.ProductPriceId)
                 {
                     itemInCart = true;
-                    item.Count += cartToAdd.Count; // if the item already exists in the shooping cart
+                    item.Count+= cartToAdd.Count; // if the item already exists in the shooping cart
                 }
             }// but if we calling for the first time that will not exists
             if (!itemInCart) // if the item is not in the shooping cart, then we add that to the cart object
@@ -52,17 +52,16 @@ namespace GulBaharWeb_Client.Service
     
         public async Task DerementCart(ShoppingCart CartToDecrement)
         {
-            // when decreming we will again get all the items in the cart variable, we dont need boolean flag
-            // becuase the item should be in the shopping cart
+          
             var cart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
             // if the count is 0 or 1 remove the item
 
-            for (int i = 0; i < cart.Count; i++)
+            for (int i=0; i<cart.Count; i++)
             {
                 // if both are eqaul we found the object that needs to be decrement or remove
-                if (cart[i].ProductId == CartToDecrement.ProductId && cart[i].ProductPriceId == CartToDecrement.ProductPriceId)
+                if (cart[i].ProductId==CartToDecrement.ProductId && cart[i].ProductPriceId==CartToDecrement.ProductPriceId)
                 {
-                    if (cart[i].Count == 1 || CartToDecrement.Count == 0)
+                    if (cart[i].Count==1 || CartToDecrement.Count==0)
                     {
                         // on cart we remove the current cart item
                         cart.Remove(cart[i]);
@@ -80,3 +79,5 @@ namespace GulBaharWeb_Client.Service
         }
     }
 }
+// when decreming we will again get all the items in the cart variable, we dont need boolean flag
+// becuase the item should be in the shopping cart

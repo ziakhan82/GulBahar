@@ -7,7 +7,7 @@ namespace GulBaharWeb_Client.ViewModels
     {
         public DetailsVM()
         {
-            ProductPrice = new();
+            ProductPrice=new();
             Count = 1;
         }
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value greater than 0")]

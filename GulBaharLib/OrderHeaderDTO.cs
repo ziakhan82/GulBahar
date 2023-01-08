@@ -46,5 +46,9 @@ namespace GulBahar_Models_Lib
         public string PostalCode { get; set; }
 
         public string Email { get; set; }
+
+        public string? Tracking { get; set; }
+        public string? Carrier { get; set; }
+
     }
 }

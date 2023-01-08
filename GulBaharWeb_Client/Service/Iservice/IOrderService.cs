@@ -6,5 +6,9 @@ namespace GulBaharWeb_Client.Service.Iservice
     {
         public Task<IEnumerable<OrderDTO>> GetAll(string? userId);
         public Task<OrderDTO> Get(int orderId);
+
+        public Task<OrderDTO> Create(StripPaymentDTO paymentDTO);
+        public Task<OrderHeaderDTO> MarkpaymentSuccessful(OrderHeaderDTO orderHeader);
+
     }
 }

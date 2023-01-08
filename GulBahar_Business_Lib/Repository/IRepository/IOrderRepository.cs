@@ -17,7 +17,7 @@ namespace GulBahar_Business_Lib.Repository.IRepository
 
         public Task<OrderHeaderDTO> UpdateHeader(OrderHeaderDTO objDTO);
 
-        public Task<OrderHeaderDTO> MarkPaymentSucessful(int id);
+        public Task<OrderHeaderDTO> MarkPaymentSuccessful(int id,  string paymentId);
 
         public Task<bool> UpdateOrderStatus(int orderId, string status);
 

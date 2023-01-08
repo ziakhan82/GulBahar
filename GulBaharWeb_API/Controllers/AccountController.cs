@@ -12,7 +12,7 @@ using System.Text;
 
 namespace GulBaharWeb_API.Controllers
 {
-    [Route("api[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : Controller
     {
@@ -29,15 +29,15 @@ namespace GulBaharWeb_API.Controllers
 
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleManager = roleManager;
-           _signInManager = signInManager;
             _aPISettings = options.Value; // based on this insdie the api settings we will get all the values from appsetting.json
 
         }
         [HttpPost]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
         {
-            if (signUpRequestDTO == null || !ModelState.IsValid)
+            if (signUpRequestDTO==null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -78,7 +78,7 @@ namespace GulBaharWeb_API.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO signInRequestDTO)
         {
-            if (signInRequestDTO== null || !ModelState.IsValid)
+            if (signInRequestDTO==null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -146,8 +146,8 @@ namespace GulBaharWeb_API.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name,user.Email),
+                new Claim(ClaimTypes.Email,user.Email),
                 new Claim("Id",user.Id),
 
             };

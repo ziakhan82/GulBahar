@@ -130,9 +130,9 @@ else
     {
         ShoppingCart shoppingCart = new()
             {
-                Count = detailsVM.Count,
-                ProductId = ProductId,
-                ProductPriceId = detailsVM.SelectedProductPriceId
+                Count=detailsVM.Count,
+                ProductId=ProductId,
+                ProductPriceId=detailsVM.SelectedProductPriceId
             };
             await _cartService.incrementCart(shoppingCart);
             _navigatioManager.NavigateTo("/");

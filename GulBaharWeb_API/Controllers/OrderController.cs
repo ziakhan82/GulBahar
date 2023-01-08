@@ -2,6 +2,7 @@
 using GulBahar_Models_Lib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 
 namespace GulBaharWeb_API.Controllers
 {
@@ -44,5 +45,40 @@ namespace GulBaharWeb_API.Controllers
 			}
 			return Ok(OrderHeader);
 		}
-	}
+
+		[HttpPost]
+		[ActionName("Create")]
+
+		public async Task<IActionResult> Create([FromBody] StripPaymentDTO paymentDTO)
+		{
+			paymentDTO.Order.OrderHeader.OrderDate= DateTime.Now;
+			var result = await _orderRepository.Create(paymentDTO.Order);
+			return Ok(result);
+		}
+
+        [HttpPost]
+        [ActionName("paymentsuccessful")]
+
+        public async Task<IActionResult> PaymentSuccessful([FromBody] OrderHeaderDTO orderHeaderDTO)
+        {
+            var service = new SessionService();
+            var sessionDetails = service.Get(orderHeaderDTO.SessionId);
+            if (sessionDetails.PaymentStatus == "paid")
+            {
+                var result = await _orderRepository.MarkPaymentSuccessful(orderHeaderDTO.Id,
+					sessionDetails.PaymentIntentId);
+
+                if (result==null)
+                {
+                    return BadRequest(new ErrorModelDTO()
+                    {
+                        ErrorMessage = "Can not mark payment as successful"
+                    });
+                }
+                return Ok(result);
+            }
+
+            return BadRequest();
+        }
+    }
 }

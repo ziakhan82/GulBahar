@@ -20,7 +20,7 @@
 		{
 			<EditForm Model="Product" OnValidSubmit="UpsertProduct">
 			<DataAnnotationsValidator/>
-			@*<ValidationSummary/>*@
+			<ValidationSummary/>
 			<div class="form-group">
 				<label>Name</label>
 					<InputText @bind-Value="Product.Name" class="form-control"></InputText>
@@ -150,7 +150,7 @@
 			{
 				foreach (var file in e.GetMultipleFiles())
 				{
-					FileInfo fileInfo = new FileInfo(file.Name);
+				System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
 					if (fileInfo.Extension.ToLower() == ".jpg" ||
 					 fileInfo.Extension.ToLower() == ".png" ||
 					 fileInfo.Extension.ToLower() == ".jpeg")

@@ -28,7 +28,7 @@ namespace GulBaharWeb_API.Controllers
 		public async Task<IActionResult> Get(int? productId)
 		{
 			if (productId == null || productId == 0)
-			{
+			{ 
 				return BadRequest(new ErrorModelDTO()
 				{
 					ErrorMessage = "Invalid Id",

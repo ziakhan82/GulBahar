@@ -18,7 +18,8 @@ else
 			Please Add Items to the shopping cart.
 		</div>
 	}
-	else{
+	else
+	{
 	<div class="container mt-4">
 		<div class="card">
 			<div class="card-header bg-dark text-light ml-0 ">
@@ -120,9 +121,9 @@ else
 		shoppingCart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
 		foreach (var cart in shoppingCart)
 		{
-			cart.Product = Products.FirstOrDefault(u => u.Id == cart.ProductId);
-			cart.ProductPrice = cart.Product.ProductPrices.FirstOrDefault(u => u.Id == cart.ProductPriceId);
-			orderTotal += (cart.ProductPrice.Price * cart.Count);
+			cart.Product = Products.FirstOrDefault(u => u.Id==cart.ProductId);
+			cart.ProductPrice=cart.Product.ProductPrices.FirstOrDefault(u => u.Id == cart.ProductPriceId);
+			orderTotal+=(cart.ProductPrice.Price * cart.Count);
 
 		}
 	}

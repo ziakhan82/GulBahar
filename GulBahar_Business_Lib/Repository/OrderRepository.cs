@@ -34,12 +34,12 @@ namespace GulBahar_Business_Lib.Repository
                 _db.OrderHeaders.Add(obj.OrderHeader);
                 await _db.SaveChangesAsync();
 
-                // loop through alll the order details and popultes its order headerID
+                // loop through all the order details and popultes its order headerID
                 foreach (var details in obj.OrderDetails)
                 {
                     details.OrderHeaderId = obj.OrderHeader.Id;
-                    
-                  
+
+
                 }
                 _db.OrderDetails.AddRange(obj.OrderDetails);
                 await _db.SaveChangesAsync();
@@ -59,10 +59,10 @@ namespace GulBahar_Business_Lib.Repository
 
         public async Task<int> Delete(int id)
         {
-            var objHeader = await _db.OrderHeaders.FirstOrDefaultAsync(u=>u.Id == id);
-            if(objHeader != null)
+            var objHeader = await _db.OrderHeaders.FirstOrDefaultAsync(u => u.Id == id);
+            if (objHeader != null)
             {
-                IEnumerable<OrderDetail> objDetail = _db.OrderDetails.Where(u=>u.OrderHeaderId == id);
+                IEnumerable<OrderDetail> objDetail = _db.OrderDetails.Where(u => u.OrderHeaderId == id);
 
                 _db.OrderDetails.RemoveRange(objDetail);
                 _db.OrderHeaders.Remove(objHeader);
@@ -80,9 +80,9 @@ namespace GulBahar_Business_Lib.Repository
                 OrderHeader = _db.OrderHeaders.FirstOrDefault(u => u.Id == id),
                 OrderDetails = _db.OrderDetails.Where(u => u.OrderHeaderId == id),
             };
-            if(order!= null)
+            if (order != null)
             {
-                return _mapper.Map<Order,OrderDTO>(order);
+                return _mapper.Map<Order, OrderDTO>(order);
             }
             return new OrderDTO();
         }
@@ -91,7 +91,7 @@ namespace GulBahar_Business_Lib.Repository
         {
             List<Order> OrderfromDb = new List<Order>();
             IEnumerable<OrderHeader> OrderHeaderList = _db.OrderHeaders;
-            IEnumerable<OrderDetail> OrderDetailList= _db.OrderDetails;
+            IEnumerable<OrderDetail> OrderDetailList = _db.OrderDetails;
 
             foreach (OrderHeader header in OrderHeaderList)
             {
@@ -107,15 +107,17 @@ namespace GulBahar_Business_Lib.Repository
 
         }
 
-        public async Task<OrderHeaderDTO> MarkPaymentSucessful(int id)
+
+        public async Task<OrderHeaderDTO> MarkPaymentSuccessful(int id, string paymentId)
         {
             var data = await _db.OrderHeaders.FindAsync(id);
-            if (data==null)
+            if (data == null)
             {
-                return new OrderHeaderDTO();   
+                return new OrderHeaderDTO();
             }
             if (data.Status == SD.Status_Pending)
             {
+                data.PaymentIntentId = paymentId;
                 data.Status = SD.Status_Confirmed;
                 await _db.SaveChangesAsync();
                 return _mapper.Map<OrderHeader, OrderHeaderDTO>(data);
@@ -125,18 +127,26 @@ namespace GulBahar_Business_Lib.Repository
 
         public async Task<OrderHeaderDTO> UpdateHeader(OrderHeaderDTO objDTO)
         {
-            if(objDTO!=null)
+            if (objDTO != null)
             {
-                var orderHeader = _mapper.Map<OrderHeaderDTO,OrderHeader>(objDTO);
-                _db.OrderHeaders.Update(orderHeader);
+                var orderHeaderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == objDTO.Id);
+                orderHeaderFromDb.Name = objDTO.Name;
+                orderHeaderFromDb.PhoneNumber = objDTO.PhoneNumber;
+                orderHeaderFromDb.Carrier = objDTO.Carrier;
+                orderHeaderFromDb.Tracking = objDTO.Tracking;
+                orderHeaderFromDb.StreetAddress = objDTO.StreetAddress;
+                orderHeaderFromDb.City = objDTO.City;
+                orderHeaderFromDb.State = objDTO.State;
+                orderHeaderFromDb.PostalCode = objDTO.PostalCode;
+                orderHeaderFromDb.Status = objDTO.Status;
+
                 await _db.SaveChangesAsync();
-                return _mapper.Map<OrderHeader, OrderHeaderDTO>(orderHeader);
+                return _mapper.Map<OrderHeader, OrderHeaderDTO>(orderHeaderFromDb);
             }
-            else
-            {
-                return new OrderHeaderDTO();
-            }
+            return new OrderHeaderDTO();
         }
+
+
 
         public async Task<bool> UpdateOrderStatus(int orderId, string status)
         {
@@ -145,15 +155,15 @@ namespace GulBahar_Business_Lib.Repository
             {
                 return false;
             }
-             data.Status = status;
-            if(status== SD.Status_Shipped)
-            { 
-                data.ShippingDate= DateTime.Now;
-               
+            data.Status = status;
+            if (status == SD.Status_Shipped)
+            {
+                data.ShippingDate = DateTime.Now;
+
             }
             await _db.SaveChangesAsync();
             return true;
-           
+
         }
     }
 }

@@ -2,6 +2,10 @@
 @inject IJSRuntime _jsRunTime;
 @inject ILocalStorageService _localStorage
 @inject IProductService _productService
+@inject IPaymentService _paymentService
+@inject IOrderService _orderservice
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 @if (IsProcessing)
 {
@@ -51,7 +55,7 @@ else
         </div>
 
         <div class="col-12 col-lg-5 p-4 ml-4 ml-md-0 mt-4 mt-md-0 border">
-            <EditForm Model="Order.OrderHeader" OnInvalidSubmit="HandleCheckOut">
+            <EditForm Model="Order.OrderHeader" OnValidSubmit="HandleCheckOut">
                 <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Enter Details</p></div></div>
                 <DataAnnotationsValidator />
                 <div class="form-group pt-2">
@@ -128,7 +132,7 @@ else
             OrderDetailDTO orderDetailDTO = new()
                 {
                     ProductId = item.ProductId,
-                    Size = productPrice.Size, 
+                    Size = productPrice.Size,
                     Count = item.Count,
                     Price = productPrice.Price,
                     ProductName = product.Name,
@@ -136,15 +140,42 @@ else
                 };
 
             Order.OrderDetails.Add(orderDetailDTO);
-            Order.OrderHeader.OrderTotal +=(cart.Count * productPrice.Price);
+            Order.OrderHeader.OrderTotal +=(item.Count * productPrice.Price);
+
+        }
+
+        if (await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails)!= null)
+        {
+            var userInfo = await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails);
+            Order.OrderHeader.UserId = userInfo.Id;
+            Order.OrderHeader.Name = userInfo.Name;
+            Order.OrderHeader.Email = userInfo.Email;
+            Order.OrderHeader.PhoneNumber = userInfo.PhoneNumber;
 
         }
         IsProcessing = false;
     }
-
     private async Task HandleCheckOut()
     {
-        
-    }
+        try{
+            IsProcessing = true;
+            var paymentDTO = new StripPaymentDTO()
+            {
+                Order = Order
+            };
 
+            var result = await _paymentService.Checkout(paymentDTO);
+            Order.OrderHeader.SessionId = result.Data.ToString();
+
+            var orderDTOSaved = await _orderservice.Create(paymentDTO);
+            await _localStorage.SetItemAsync(SD.Local_UserDetails,orderDTOSaved);
+
+            await _jsRunTime.InvokeVoidAsync("redirectToCheckout",result.Data.ToString());
+
+        }
+        catch(Exception e)
+        {
+            await _jsRunTime.ToasterError(e.Message);
+        }
+    }
 }
