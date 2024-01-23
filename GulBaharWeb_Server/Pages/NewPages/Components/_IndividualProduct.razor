@@ -20,18 +20,16 @@
 @code {
 	[Parameter]
 	public Products product { get; set; }
+	[Parameter]
+	public RenderFragment FirstFragmnet { get; set; }
 
 	[Parameter]
-	public EventCallback<bool> OnFavouriteUpadated { get; set; }
-
+	public RenderFragment SecondFragmnet { get; set; }
 	[Parameter]
 	public EventCallback<string> onLastSelectedChange { get; set; }
 
 	[Parameter]
-	public RenderFragment FirstFragmnet{ get; set; }
-
-	[Parameter]
-	public RenderFragment SecondFragmnet { get; set; }
+	public EventCallback<bool> OnFavouriteUpadated { get; set; }
 
 	private async Task FavouriteUpadated(Microsoft.AspNetCore.Components.ChangeEventArgs e)
 	{

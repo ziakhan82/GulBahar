@@ -12,7 +12,7 @@ using System.Text;
 
 namespace GulBaharWeb_API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")] // action, becuase both sing in and sign up are http post method,refence the name with the rout
     [ApiController]
     public class AccountController : Controller
     {
@@ -31,7 +31,7 @@ namespace GulBaharWeb_API.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-            _aPISettings = options.Value; // based on this insdie the api settings we will get all the values from appsetting.json
+            _aPISettings = options.Value; // based on this insdie the api settings I will get all the values from appsetting.json
 
         }
         [HttpPost]
@@ -50,6 +50,7 @@ namespace GulBaharWeb_API.Controllers
                 PhoneNumber = signUpRequestDTO.PhoneNumber,
                 EmailConfirmed = true
             };
+            // first parameter is the instance of application user, and second is the user pass
             var result = await _userManager.CreateAsync(user, signUpRequestDTO.Password);
             // if not successed 
             if (!result.Succeeded)
@@ -95,11 +96,12 @@ namespace GulBaharWeb_API.Controllers
                         ErrorMessage = "Invalid authentication"
                     });
                 }
-                //everything is valid you can login 
-                var singedCredentials = GetSingingCredentials();
-                var claims = await GetClaims(user);
+                //everything is valid you can login/ once the login is successful
 
+                var singedCredentials = GetSingingCredentials(); // get sing in credentials
+                var claims = await GetClaims(user); // retreving all the claims 
 
+                // creating JWT token
                 var tokenOptions = new JwtSecurityToken(
                     issuer: _aPISettings.ValidIssuer,
                     audience: _aPISettings.ValidAudience,
@@ -107,13 +109,13 @@ namespace GulBaharWeb_API.Controllers
                     expires: DateTime.Now.AddDays(30),
                     signingCredentials:singedCredentials);
 
-
+                // creating final token
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return Ok(new SignInResponseDTO()
                 {
                     IsAuthSuccessful = true,
                     Token = token,
-                    UserDTO = new UserDTO
+                    UserDTO = new UserDTO //assing the properties based on the user object
                     {
                         Name = user.Name,
                         Id = user.Id,
@@ -137,24 +139,32 @@ namespace GulBaharWeb_API.Controllers
 
     private SigningCredentials GetSingingCredentials()
         {
+            // provide the key inside an array of byte. in order to convert 
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_aPISettings.SecretKey));
 
+            // passing the secure key and the algorithm
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
+        // returns a list of claim 
         private async Task<List<Claim>> GetClaims(ApplicationUser user)
         {
+            // new list of claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,user.Email),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim("Id",user.Id),
+                // type and value
+                new Claim(ClaimTypes.Name,user.Email), //default
+                new Claim(ClaimTypes.Email,user.Email), // defult  
+                new Claim("Id",user.Id), // custom claim
 
             };
+            // find user pass that to get role by async and inside role user get the role that is assinged from Db
             var userRoles= await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email));
+
+
             foreach (var role in userRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, role)); // adding claim of role to the user
             }
             return claims;
         }

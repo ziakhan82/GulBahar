@@ -23,6 +23,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    }
+    } // Which is the windows platform for hosting an application IIS express will give us different port numbers
+    //for every project type or every project that we created in visual studio and blazor app will always use the same port. 
   }
 }
+
+// it's going to lunch what looks like a console application that will give us all the information about the web server it’s 
+//a privately hosted web server it’s a little different than IIS express

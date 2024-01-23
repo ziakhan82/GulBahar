@@ -10,11 +10,15 @@ namespace GulBahar_DataAcess_Lib.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public ApplicationDbContext()
+        {
+            
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
         {
-
+ 
         }
-        public DbSet<Category> Categories { get; set; }
+        public virtual  DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductPrice> ProductPrices { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }

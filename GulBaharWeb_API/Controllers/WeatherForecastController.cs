@@ -1,3 +1,4 @@
+using GulBahar_Common_Func_Lib;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,7 +6,7 @@ namespace GulBaharWeb_API.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	[Authorize]
+	[Authorize(Roles =SD.Role_Customer)]
 	public class WeatherForecastController : ControllerBase
 	{
 		private static readonly string[] Summaries = new[]

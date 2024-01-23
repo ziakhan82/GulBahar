@@ -1,5 +1,6 @@
 ﻿@page "/Category"
 @inject ICategoryRepository _categoryRepository
+ 
 @inject IJSRuntime _jsRunTime
 @using GulBahar_Common_Func_Lib
 
@@ -89,7 +90,7 @@
 		if(isConfirmed && DeleteCategoryId!= 0)
 		{
 			//Delete
-			await _categoryRepository.Delete(DeleteCategoryId);
+			await _categoryRepository.DeleteAsync(DeleteCategoryId);
 			await LoadCategories();
 			await _jsRunTime.InvokeVoidAsync("HideDeleteConfirmationModal");
 		}

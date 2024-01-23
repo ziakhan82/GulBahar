@@ -19,14 +19,14 @@ namespace GulBaharWeb_Client.Pages.Authentication
             var authState = await _authState;
             if (authState?.User.Identities is null || !authState.User.Identity.IsAuthenticated)
             {
-                var returnUrl = _navigationManger.ToBaseRelativePath(_navigationManger.Uri);
-                if (string.IsNullOrEmpty(returnUrl))
+                var returnUrl = _navigationManger.ToBaseRelativePath(_navigationManger.Uri); // current url
+                if (string.IsNullOrEmpty(returnUrl)) // if null redirect to login
                 {
                     _navigationManger.NavigateTo("login");
                 }
                 else
                 {
-                    _navigationManger.NavigateTo($"login?returnUrl={returnUrl}");
+                    _navigationManger.NavigateTo($"login?returnUrl={returnUrl}");// appending return url
                 }
             }
             else

@@ -45,7 +45,7 @@
                             <li class="nav-item p-0">
                                 <NavLink class="nav-link" href="#">
                                     <span class="p-2">
-                                        Hello, @context.User.Identity.Name
+                                        Hello,@context.User.Identity.Name
                                     </span>
                                 </NavLink>
                             </li>
@@ -87,9 +87,11 @@
 
     protected override void OnInitialized()
     {
-        _cartService.OnChange += StateHasChanged;
-    }
+        _cartService.OnChange += StateHasChanged; // retistering an event on change, it will notify that state has changed in the nav menu
+        // when making an update in cart service it will be invoked
 
+    }
+    // when the component will be disposed, it will dispse the registeration that i have 
     public void Dispose()
     {
         _cartService.OnChange-= StateHasChanged;

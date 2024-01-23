@@ -134,7 +134,7 @@ else
                 ProductId=ProductId,
                 ProductPriceId=detailsVM.SelectedProductPriceId
             };
-            await _cartService.incrementCart(shoppingCart);
+            await _cartService.incrementCart(shoppingCart); //it will first check if the object already exist, if does increment the count, if not create new object
             _navigatioManager.NavigateTo("/");
             await _jsRunTime.ToasterSuccess("Product Added to cart successfully");
     }

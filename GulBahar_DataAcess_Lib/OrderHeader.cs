@@ -40,6 +40,7 @@ namespace GulBahar_DataAcess_Lib
         public string City { get; set; }
         [Required]
         public string PostalCode{ get; set; }
+        [Required]
         public string Email { get; set; }
 
         public string? Tracking { get; set; }

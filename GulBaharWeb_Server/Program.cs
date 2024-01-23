@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using Syncfusion.Blazor;
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Nzc2MTU3QDMxMzkyZTMzMmUzME51TU1BcU9hejlGbDR1b040RUhiUC85MllWeC9DaDFxbTRzdlV5VUR1VHc9");
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IFileUpload, FileUpload>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["ApiKey"];
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -53,17 +55,19 @@ app.UseRouting();
 seedDatabase();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapBlazorHub();
+app.MapBlazorHub(); // this is where we configure our signalR connectin which power our server app, its a services that talks to the client browser, listen for changes coming
+// back to the other direction.
 app.MapFallbackToPage("/_Host");
 
 
 
 app.Run();
 
-void seedDatabase()
+void seedDatabase() // whenever the application starts it will check the intialize method
 {
-    using (var scope = app.Services.CreateScope())
+    using (var scope = app.Services.CreateScope()) //creating a scope
     {
+        //Extracting the implmentation of fb initalizer
         var dbInitilazer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
         dbInitilazer.Initialize();
     }

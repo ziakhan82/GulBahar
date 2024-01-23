@@ -10,7 +10,7 @@ namespace GulBahar_Business_Lib.Repository.IRepository
     public interface IOrderRepository
     {
         public Task<OrderDTO> Get(int id);
-        public Task<IEnumerable<OrderDTO>> GetAll(string? userId = null, string? status =null);
+        public Task<IEnumerable<OrderDTO>> GetAll(string? userId = null, string? status =null);// order for spefic user, or all the the orders that are in certain staus
         public Task<OrderDTO> Create(OrderDTO objDTO);
         public Task<int> Delete(int id);
 
@@ -20,6 +20,8 @@ namespace GulBahar_Business_Lib.Repository.IRepository
         public Task<OrderHeaderDTO> MarkPaymentSuccessful(int id,  string paymentId);
 
         public Task<bool> UpdateOrderStatus(int orderId, string status);
+
+        public Task<OrderHeaderDTO> CancelOrder(int id); // based on order Id
 
     }
 }

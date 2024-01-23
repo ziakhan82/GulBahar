@@ -125,10 +125,10 @@ else
 
         foreach (var item in cart)
         {
-            ProductDTO product = Products.FirstOrDefault(u => u.Id == item.ProductId);
-            ProductPriceDTO productPrice = product.ProductPrices.FirstOrDefault(u => u.Id == item.ProductPriceId);
+            ProductDTO product = Products.FirstOrDefault(u => u.Id == item.ProductId); // finding products based on item.id
+            ProductPriceDTO productPrice = product.ProductPrices.FirstOrDefault(u => u.Id == item.ProductPriceId); // finding product prices where id matches in items in shopping cart)local storage)
 
-
+            //indiviual order detail
             OrderDetailDTO orderDetailDTO = new()
                 {
                     ProductId = item.ProductId,
@@ -139,7 +139,7 @@ else
                     Product = product
                 };
 
-            Order.OrderDetails.Add(orderDetailDTO);
+            Order.OrderDetails.Add(orderDetailDTO); // adding indidual order to the list, will be repeated for every item in the shopping cart
             Order.OrderHeader.OrderTotal +=(item.Count * productPrice.Price);
 
         }
@@ -164,13 +164,13 @@ else
                 Order = Order
             };
 
-            var result = await _paymentService.Checkout(paymentDTO);
-            Order.OrderHeader.SessionId = result.Data.ToString();
+            var result = await _paymentService.Checkout(paymentDTO); // the result is success model dto that has session Id
+            Order.OrderHeader.SessionId = result.Data.ToString();    // set session Id
 
-            var orderDTOSaved = await _orderservice.Create(paymentDTO);
-            await _localStorage.SetItemAsync(SD.Local_UserDetails,orderDTOSaved);
+             var orderDTOSaved = await _orderservice.Create(paymentDTO); // create Order header and order detils
+            await _localStorage.SetItemAsync(SD.Local_UserDetails,orderDTOSaved); // stote the order when creating payment
 
-            await _jsRunTime.InvokeVoidAsync("redirectToCheckout",result.Data.ToString());
+            await _jsRunTime.InvokeVoidAsync("redirectToCheckout",result.Data.ToString()); // redirect to check expect session id (result)
 
         }
         catch(Exception e)

@@ -1,8 +1,10 @@
-﻿@page "/"
+﻿@page "/" 
 @namespace GulBaharWeb_Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_Layout";
 }
+@*app componet is the root component of the application *@
 
 <component type="typeof(App)" render-mode="ServerPrerendered" />
+

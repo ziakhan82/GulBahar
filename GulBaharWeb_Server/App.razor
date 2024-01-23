@@ -1,6 +1,7 @@
 ﻿<CascadingAuthenticationState>
-<Router AppAssembly="@typeof(App).Assembly">
+<Router AppAssembly="@typeof(App).Assembly">   
     <Found Context="routeData">
+        @*for a given path if a match is found this found propery is used and router view renders that matching component*@
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         
 
@@ -13,4 +14,6 @@
         </LayoutView>
     </NotFound>
 </Router>
-</CascadingAuthenticationState>
+</CascadingAuthenticationState> @*this componet pass authentication state down to all components*@
+
+@*this file uses the built-in router component to setup client side routing, it intercepts browser naviagation and renders the page that mathces the requested address*@

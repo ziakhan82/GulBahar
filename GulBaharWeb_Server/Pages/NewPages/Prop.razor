@@ -1,0 +1,28 @@
+﻿@page "/prop"
+<h3>prop</h3>
+
+
+	<h3 class="text-primary">Products</h3><hr />
+
+
+
+
+<h1>@products.Name  @products.Price  @products.IsActive</h1>
+      <h4>welome to blazor</h4>
+	
+@code {
+	Products products = new()
+		{
+			Id = 1,
+			Name = "Laptop",
+			IsActive = true,
+			Price = 10.99,
+			ProductProperties = new List<ProductProp>()
+			{
+				new ProductProp{ Id =1, Key = "Color", Value="Black" },
+				new ProductProp{ Id =2, Key = "Flavor", Value="Rose Jasmine" },
+				new ProductProp{ Id =3, Key = "Size", Value="20oz" },
+			}
+
+		};
+}

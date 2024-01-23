@@ -47,15 +47,15 @@
     protected override async Task OnInitializedAsync()
     {
         IsProcessing = true;
-        Order = await _localStorage.GetItemAsync<OrderDTO>(SD.Local_UserDetails);
+        Order = await _localStorage.GetItemAsync<OrderDTO>(SD.Local_UserDetails); // get item from local storage
         //add logic to check payment and update status
 
         try
         {
-            var updatedOrder = await _orderService.MarkpaymentSuccessful(Order.OrderHeader);
-            if (updatedOrder.Status == SD.Status_Confirmed)
+            var updatedOrder = await _orderService.MarkpaymentSuccessful(Order.OrderHeader); // mark payment as successul
+            if (updatedOrder.Status == SD.Status_Confirmed) // if staus is updated to confirmed then
             {
-                Order.OrderHeader.Status = updatedOrder.Status;
+                Order.OrderHeader.Status = updatedOrder.Status;// update the order status to confrim on UI
                 await _localStorage.RemoveItemAsync(SD.ShoppingCart);
                 await _localStorage.RemoveItemAsync(SD.Local_UserDetails);
             }

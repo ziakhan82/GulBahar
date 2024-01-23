@@ -1,13 +1,14 @@
 ﻿@page "/Category/Create"
 @page "/Category/edit/{id:int}"
 @inject ICategoryRepository _categoryRepository
+
 @inject NavigationManager _NavigationManager
 @attribute [Authorize]
 <div class="row my-2">
 	<h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
 
 	<div class="col-10">
-		@if(IsLoading)
+		@if(IsLoading) @*loading gif*@
 		{
 			<div class="text-center">
 				<img src="/Images/ajax-loader.gif">
@@ -50,7 +51,7 @@
 			}
 			else
 			{
-				//Update
+				//Update request
 				Title = "Update";
 				await LoadCategory();
 			}
@@ -59,11 +60,11 @@
 
 	private async Task LoadCategory()
 	{
-		IsLoading = true;
-		StateHasChanged();
+		IsLoading = true; // show spinner
+		StateHasChanged(); // state has changed and the UI needs to be rerendered
 		Category = await _categoryRepository.Get(Id);
 		IsLoading = false;
-		StateHasChanged();
+		StateHasChanged(); // hide the spinnser and show all the category. UI has changed
 	}
 
 	private async Task Upsertcategory()

@@ -24,7 +24,7 @@ namespace GulBaharWeb_Server.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
@@ -127,6 +127,7 @@ namespace GulBaharWeb_Server.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     // by default the role of customer will be assigned 
+                    //_userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
                     await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     
                     _logger.LogInformation("User created a new account with password.");

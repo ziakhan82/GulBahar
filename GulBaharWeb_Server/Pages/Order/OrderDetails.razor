@@ -2,7 +2,7 @@
 @inject IOrderRepository _orderRepository
 @inject IJSRuntime _jsRuntime
 @using GulBahar_Common_Func_Lib
-@attribute [Authorize]
+@attribute [Authorize (Roles=SD.Role_Admin)]
 @if (IsLoading)
 {
     <div class="text-center">
@@ -161,13 +161,13 @@ else
 
                             @if (Order.OrderHeader.Status == SD.Status_Confirmed)
                             {
-                                <button @*@onclick="ShipOrder"*@ class="btn btn-success form-control my-1">Ship Order</button>
+                                <button @onclick="ShipOrder" class="btn btn-success form-control my-1">Ship Order</button>
                             }
 
                             @if (Order.OrderHeader.Status == SD.Status_Confirmed ||
                            Order.OrderHeader.Status == SD.Status_Pending)
                             {
-                                <button @*@onclick="CancelOrder"*@ class="btn btn-danger form-control my-1">Cancel Order</button>
+                                <button @onclick="CancelOrder" class="btn btn-danger form-control my-1">Cancel Order</button>
                             }
                         </div>
                     </div>
@@ -203,27 +203,36 @@ else
 
     private async Task UpdateOrder()
     {
-        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
-        Order.OrderHeader = OrderHeaderDTO;
+        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader); // update user details
+        Order.OrderHeader = OrderHeaderDTO; // this way the UI will also be refered
         _jsRuntime.ToasterSuccess("Order has been updated successfully");
     }
 
     private async Task ShipOrder()
     {
-        if (string.IsNullOrEmpty(Order.OrderHeader.Carrier) || string.IsNullOrEmpty(Order.OrderHeader.Tracking))
+        if (string.IsNullOrEmpty(Order.OrderHeader.Carrier) || string.IsNullOrEmpty(Order.OrderHeader.Tracking)) // if carrir and tracking is not populated error message
         {
             _jsRuntime.ToasterError("Please Enter Tracking and Carrier Information");
             return;
         }
 
-        Order.OrderHeader.Status = SD.Status_Shipped;
-        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
-        Order.OrderHeader = OrderHeaderDTO;
+        Order.OrderHeader.Status = SD.Status_Shipped; // else chage the status to shipped
+        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader); // and update it in the database 
+        Order.OrderHeader = OrderHeaderDTO; // update the UI
         _jsRuntime.ToasterSuccess("Order has been Shipped!");
     }
 
-   
+    private async Task CancelOrder()
+    {
+        Order.OrderHeader = await _orderRepository.CancelOrder(Order.OrderHeader.Id);
 
+        if(Order.OrderHeader.Status == SD.Status_Cancelled){
+        _jsRuntime.ToasterSuccess("Order has been Cancelled successfully");
     }
+        if (Order.OrderHeader.Status == SD.Status_Refunded)
+        {
+            _jsRuntime.ToasterSuccess("Order has been Cancelled & Refuned successfully");
+        }
+}
 }
 

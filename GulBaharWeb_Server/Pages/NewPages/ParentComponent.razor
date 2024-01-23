@@ -11,23 +11,12 @@
 </CascadingValue>
 </CascadingValue>
 
-<p><b>@messageText</b</p>
-	<_AnotherChildComponent Placeholder="place holder from parent"></_AnotherChildComponent>
-
-	<div class="row">
-		<button class="btn btn-success" @onclick="()=>childComp.TaosterSuccess()">Show SweetAlert</button>
-	</div>
-
-@*<_ChildComponent Title="this is the second child component">
-</_ChildComponent>*@
 
 @code {
-
-	private _ChildComponent childComp;
-	public string MessageForGrandChild = "This message is from your Grand Parent (ParentComponent)";
+	public string MessageForGrandChild = "This message is from your (ParentComponent)";
 	public string LuckyNumber = "7";
 	public string messageText = "";
-
+	private _ChildComponent childComp;
 	private void ShowMessage()
 	{
 		messageText = "Gulabahr button click from child component"; 

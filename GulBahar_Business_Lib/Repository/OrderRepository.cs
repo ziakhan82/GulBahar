@@ -25,28 +25,64 @@ namespace GulBahar_Business_Lib.Repository
             _mapper = mapper;
         }
 
-        public async Task<OrderDTO> Create(OrderDTO objDTO)
+		public async Task<OrderHeaderDTO> CancelOrder(int id)
+		{
+			var orderHeader= await _db.OrderHeaders.FindAsync(id);
+            if(orderHeader == null)
+        {
+                return new OrderHeaderDTO();
+
+            }
+
+            if(orderHeader.Status == SD.Status_Pending)
+            {
+                orderHeader.Status = SD.Status_Cancelled;
+                await _db.SaveChangesAsync();
+            }
+
+            if(orderHeader.Status == SD.Status_Confirmed) // need to give refund  
+            {
+                // refund
+                var options = new Stripe.RefundCreateOptions
+                {
+                    Reason = Stripe.RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentId // based on paymentId, stripe find the payment and refund that transction
+
+                    
+                };
+
+                var service = new Stripe.RefundService();
+                Stripe.Refund refund = service.Create(options);
+                orderHeader.Status = SD.Status_Refunded;
+                await _db.SaveChangesAsync();
+            }
+
+            return _mapper.Map<OrderHeader,OrderHeaderDTO>(orderHeader);
+		}
+
+		public async Task<OrderDTO> Create(OrderDTO objDTO)
         {
             try
             {
                 var obj = _mapper.Map<OrderDTO, Order>(objDTO);
-                //once the order header gets created obj.header will have the Id populated
-                _db.OrderHeaders.Add(obj.OrderHeader);
+                // When creating order detail order header is required, first I create the order header,
+                // retrieves its Id that gets created and then populate that in order detail, when creating an order.
+                _db.OrderHeaders.Add(obj.OrderHeader); // obj will have the Id populated
                 await _db.SaveChangesAsync();
 
                 // loop through all the order details and popultes its order headerID
                 foreach (var details in obj.OrderDetails)
                 {
-                    details.OrderHeaderId = obj.OrderHeader.Id;
+                    details.OrderHeaderId = obj.OrderHeader.Id; //populating the order header Id from obj 
 
 
                 }
-                _db.OrderDetails.AddRange(obj.OrderDetails);
+                _db.OrderDetails.AddRange(obj.OrderDetails); // add range adds collection of objects
                 await _db.SaveChangesAsync();
 
                 return new OrderDTO()
                 {
-                    OrderHeader = _mapper.Map<OrderHeader, OrderHeaderDTO>(obj.OrderHeader),
+                    OrderHeader = _mapper.Map<OrderHeader, OrderHeaderDTO>(obj.OrderHeader), 
                     OrderDetails = _mapper.Map<IEnumerable<OrderDetail>, IEnumerable<OrderDetailDTO>>(obj.OrderDetails).ToList()
                 };
             }

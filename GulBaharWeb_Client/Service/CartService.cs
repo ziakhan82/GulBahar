@@ -52,7 +52,7 @@ namespace GulBaharWeb_Client.Service
     
         public async Task DerementCart(ShoppingCart CartToDecrement)
         {
-          
+           // getting all the items in the cart varible
             var cart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
             // if the count is 0 or 1 remove the item
 

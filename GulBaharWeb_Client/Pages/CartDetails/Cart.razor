@@ -118,10 +118,10 @@ else
 	private async Task LoadCart()
 	{
 		orderTotal = 0;
-		shoppingCart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
+		shoppingCart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart); // retring items from local storage
 		foreach (var cart in shoppingCart)
 		{
-			cart.Product = Products.FirstOrDefault(u => u.Id==cart.ProductId);
+			cart.Product = Products.FirstOrDefault(u => u.Id==cart.ProductId); // retriving a product in shopping cart
 			cart.ProductPrice=cart.Product.ProductPrices.FirstOrDefault(u => u.Id == cart.ProductPriceId);
 			orderTotal+=(cart.ProductPrice.Price * cart.Count);
 

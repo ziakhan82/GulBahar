@@ -19,8 +19,8 @@
             <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderDate" Title="Order Date" FormatString="{0:d}" />
             <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Status" Title="Status" />
             <RadzenDataGridColumn TItem="OrderHeaderDTO" Title="Details" >
-                <Template Context="data">
-                    <RadzenButton Click="(args=> OrderDetails(data.Id))" Text="Details" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+                <Template Context="data"> @*data which is tiem is name given to order dto wh*@
+                    <RadzenButton Click="(args=> OrderDetails(data.Id))" Text="Details" ButtonStyle="ButtonStyle.Success"></RadzenButton> @*ID property of order header passed to order deatils*@
                 </Template>
             </RadzenDataGridColumn>
         </Columns>

@@ -13,13 +13,13 @@ namespace GulBaharWeb_Client.Service
 		{
 			_httpClient = httpClient;
             _configuration = configuration;
-			BaseServerUrl = _configuration.GetSection("BaseServerUrl").Value;
+			BaseServerUrl = _configuration.GetSection("BaseServerUrl").Value; // extracting base server url
         }
 
 		public async Task<ProductDTO> Get(int productId)
 		{
 			var response = await _httpClient.GetAsync($"/api/product/{productId}");
-			var content = await response.Content.ReadAsStringAsync();
+			var content = await response.Content.ReadAsStringAsync(); // Extracting content
 			if (response.IsSuccessStatusCode)
 			{
 				

@@ -22,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "GublBaharWeb_API", Version = "v1" });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme // security defination for bearer, where we add tokens
     {
         In = ParameterLocation.Header,
         Description = "Please Bearer and then token in the field",
@@ -49,12 +49,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenPro
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var apiSettingsSection = builder.Configuration.GetSection("APISettings");
-builder.Services.Configure<APISettings>(apiSettingsSection); //all of the values that we have for our keys all of them will be assigned to APISettings variables
+builder.Services.Configure<APISettings>(apiSettingsSection); //all of the values that I have in appseeting for keys all of them will be assigned to APISettings class properties
 
+// getting api setting keys
 var apiSettings = apiSettingsSection.Get<APISettings>();
-var key = Encoding.ASCII.GetBytes(apiSettings.SecretKey);
+var key = Encoding.ASCII.GetBytes(apiSettings.SecretKey); // encoding the secret key
 
-builder.Services.AddAuthentication(opt =>
+// define a way for api to validate each and every api requst based on the jwt token 
+builder.Services.AddAuthentication(opt => // set all the options
 {   
 	opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 	opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,7 +68,7 @@ builder.Services.AddAuthentication(opt =>
 	x.SaveToken = true;
 	x.TokenValidationParameters = new()
 	{
-		ValidateIssuerSigningKey = true,
+		ValidateIssuerSigningKey = true, // if the key matches request is valid
 		IssuerSigningKey = new SymmetricSecurityKey(key),
 		ValidateAudience = true,
 		ValidateIssuer = true,

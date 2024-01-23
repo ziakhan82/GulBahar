@@ -68,7 +68,7 @@ namespace GulBaharWeb_Client.Service
             var content = JsonConvert.SerializeObject(orderHeader);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/order/paymentsuccessful", bodyContent);
-            string responseResult = response.Content.ReadAsStringAsync().Result;
+            string responseResult = response.Content.ReadAsStringAsync().Result; // serialize the HTTP content to a string as an asynchronours operation
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<OrderHeaderDTO>(responseResult);

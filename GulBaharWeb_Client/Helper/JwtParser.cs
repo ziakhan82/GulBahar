@@ -6,16 +6,17 @@ namespace GulBaharWeb_Client.Helper
  
         public static class JwtParser
         {
+        // jwt parser method to consume the jwt token, token will be send from API to client in all subsequent req, extraxt claim from that
             public static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
             {
                 var claims = new List<Claim>();
-                var payload = jwt.Split('.')[1];
+                var payload = jwt.Split('.')[1]; // spliting jwt and first piece is paylaod
 
-                var jsonBytes = ParseBase64WithoutPadding(payload);
-
+                var jsonBytes = ParseBase64WithoutPadding(payload); // parsing based on payload
+                // extracting key value
                 var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
                 claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
-                return claims;
+                return claims; // adding key value pairs to cliams and returing back ienum of claims
             }
             private static byte[] ParseBase64WithoutPadding(string base64)
             {

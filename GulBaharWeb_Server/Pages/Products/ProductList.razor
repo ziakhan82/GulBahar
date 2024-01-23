@@ -80,7 +80,9 @@
 		var authState = await authenticationState;
 		if (!authState.User.Identity.IsAuthenticated)
 		{
-			var uri = new Uri(_navigationManager.Uri);
+			var uri = new Uri(_navigationManager.Uri); // current Uri path
+
+			//after when user logged in it redicrect user to product list page on b server, login page has redirect URI, which expertcs return url
 			_navigationManager.NavigateTo($"identity/account/login?returnUrl={uri.LocalPath}",forceLoad:true);
 		}
 		else

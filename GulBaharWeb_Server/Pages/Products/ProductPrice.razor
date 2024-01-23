@@ -6,7 +6,7 @@
 @if (IsLoading)
 {
 	<div class="text-center">
-		<img src="/Images/ajax-loader.gif">
+		<img src="/Images/loading.gif">
 	</div>
 }
 else
@@ -20,13 +20,13 @@ else
 			</div>
 		</div>
 		<div class="col-6">
-			<img src="@Product.ImageUrl" class="w-100">
+			<img src="@Product.ImageUrl" class="w-50">
 		</div>
 	</div>
 	<SfGrid @ref="productPriceGride" DataSource="@ProductPrices" AllowPaging="true" AllowFiltering="true" AllowSorting="true"
 		Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
 		<GridEditSettings AllowAdding="true" AllowEditing="true" ShowDeleteConfirmDialog="true" AllowDeleting="true"></GridEditSettings>
-		<GridEvents OnActionBegin="ActionHandler" TValue="ProductPriceDTO"></GridEvents>
+		<GridEvents OnActionBegin="ActionHandler" TValue="ProductPriceDTO"></GridEvents>@*what method should be called on any gride action*@
 		<GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
 		<GridSortSettings AllowUnsort ="false">
 			<GridSortColumns>
@@ -70,7 +70,7 @@ else
 
 	IEnumerable<string> SizeList = new List<string>()
 	{
-		"13-inch","15.5-inch","16.4-inch"
+		"13-inch","15.5-inch","16.4-inch","standard",
 	};
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -91,11 +91,11 @@ else
 		if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
 		{
 			args.Data.ProductId=Id;
-			if(args.Action == "Add")
+			if(args.Action=="Add")
 			{
 				await _productPriceRepository.Create(args.Data);
 				ProductPrices = await _productPriceRepository.GetAll(Id);
-				productPriceGride.Refresh();
+				productPriceGride.Refresh(); // referesh data gride
 			}
 			if (args.Action=="Edit")
 			{

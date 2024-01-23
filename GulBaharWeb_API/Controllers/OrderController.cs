@@ -61,9 +61,9 @@ namespace GulBaharWeb_API.Controllers
 
         public async Task<IActionResult> PaymentSuccessful([FromBody] OrderHeaderDTO orderHeaderDTO)
         {
-            var service = new SessionService();
-            var sessionDetails = service.Get(orderHeaderDTO.SessionId);
-            if (sessionDetails.PaymentStatus == "paid")
+            var service = new SessionService(); // creating new session
+            var sessionDetails = service.Get(orderHeaderDTO.SessionId); // on service get session details
+            if (sessionDetails.PaymentStatus == "paid") // its hard coded as paid it will always match that as long as its successful 
             {
                 var result = await _orderRepository.MarkPaymentSuccessful(orderHeaderDTO.Id,
 					sessionDetails.PaymentIntentId);

@@ -25,7 +25,7 @@ namespace GulBaharWeb_API.Controllers
 
 				var domain = _configuration.GetValue<string>("Gul-Bahar_URl");
 
-				var options = new SessionCreateOptions
+				 var options = new SessionCreateOptions
 				{
 					SuccessUrl = domain+paymentDTO.SuccessUrl,
 					CancelUrl = domain+paymentDTO.CancelUrl,
@@ -34,10 +34,10 @@ namespace GulBaharWeb_API.Controllers
 					PaymentMethodTypes = new List<string> { "card" }
 				};
 
-
-				foreach (var item in paymentDTO.Order.OrderDetails)
+				// building line items for all the products in order details
+				foreach (var item in paymentDTO.Order.OrderDetails) // loop through all order details
 				{
-					var sessionLineItem = new SessionLineItemOptions
+					var sessionLineItem = new SessionLineItemOptions // indivula session line item
 					{
 						PriceData = new SessionLineItemPriceDataOptions
 						{
@@ -48,13 +48,13 @@ namespace GulBaharWeb_API.Controllers
 								Name = item.Product.Name
 							}
 						},
-						Quantity = item.Count
+						Quantity = item.Count // based on the price an quatity it will automaically multiply them to get order total
 					};
-					options.LineItems.Add(sessionLineItem);
+					options.LineItems.Add(sessionLineItem); // adding indiviual line items to options
 				}
-
-				var service = new SessionService();
-				Session session = service.Create(options);
+				//calling strip and creating strip session
+				var service = new SessionService(); // creating new session service
+				Session session = service.Create(options); // creating options, and we get back session object which has sessionId
 				return Ok(new SuccessModelDTO()
 				{
 					Data = session.Id /*+ ";" + session.PaymentIntentId*/
